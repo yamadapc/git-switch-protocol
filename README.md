@@ -1,5 +1,7 @@
 git-switch-protocol
 ===================
+[![Analytics](https://ga-beacon.appspot.com/UA-54450544-1/git-switch-protocol/README)](https://github.com/igrigorik/ga-beacon)
+- - -
 A helper to easily switch a git repositories remotes from `ssh` to `https` and
 back. Useful for places where `ssh` is blocked (such as some mermaid
 coffee-shops in São Paulo, as of recently)

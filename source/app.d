@@ -1,13 +1,12 @@
 // Licensed under the GPLv3 license. See LICENSE for more information.
-import std.algorithm;
-import std.array;
-import std.conv;
-import std.getopt;
-import std.process;
-import std.regex;
-import std.string;
+import std.algorithm : map, uniq;
+import std.conv : to;
+import std.getopt : getopt;
+import std.process : execute;
+import std.regex : ctRegex, match;
+import std.string : format, join, split;
 
-import colorize;
+import colorize : cwriteln, color, cwritefln;
 
 static immutable string usage = "Usage: git-switch-protocol -p <protocol>";
 

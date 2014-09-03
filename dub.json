@@ -1,0 +1,11 @@
+{
+  "name": "git-switch-protocol",
+  "description": "A git helper for easily switching from ssh to https remotes and back.",
+  "copyright": "Copyright © 2014, assia",
+  "authors": [
+    "Pedro Tacla Yamada"
+  ],
+  "dependencies": {
+    "colorize": ">=1.0.5"
+  }
+}

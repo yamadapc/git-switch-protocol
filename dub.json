@@ -1,7 +1,8 @@
 {
   "name": "git-switch-protocol",
   "description": "A git helper for easily switching from ssh to https remotes and back.",
-  "copyright": "Copyright © 2014, assia",
+  "copyright": "Copyright © 2014, Pedro Tacla Yamada",
+  "license": "GPLv3",
   "authors": [
     "Pedro Tacla Yamada"
   ],

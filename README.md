@@ -16,6 +16,11 @@ Switching remote `origin` from `ssh` to `https`...
 Remote `bitbucket` is already using `https`. Skipping...
 ```
 
+## Installing
+
+To install, either build it from source with `dub` and `dmd` (version 2.066 or
+greater) or download a binary release from the releases section.
+
 ## License
 This code is licensed under the GPLv3 license. See the [LICENSE](/LICENSE) file
 for more information.

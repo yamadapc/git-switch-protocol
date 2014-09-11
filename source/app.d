@@ -54,7 +54,7 @@ int main(string[] args)
   }
 }
 
-enum protocol { ssh, https }
+enum protocol { ssh, https, git }
 
 struct Remote
 {
@@ -102,11 +102,17 @@ struct Remote
     return "https://%s/%s".format(host, path);
   }
 
+  @property string gitUrl()
+  {
+    return "git://%s/%s".format(host, path);
+  }
+
   unittest
   {
     auto r = Remote(protocol.https, "origin", "github.com", "yamadapc/pyjamas");
     assert(r.sshUrl == "git@github.com:yamadapc/pyjamas");
     assert(r.httpsUrl == "https://github.com/yamadapc/pyjamas");
+    assert(r.gitUrl == "git://github.com/yamadapc/pyjamas");
   }
 }
 
@@ -120,8 +126,15 @@ Remote toRemote(in string descriptor)
   );
   auto cs = descriptor.match(rgx).captures;
 
+  protocol p = protocol.git;
+  switch(cs["prefix"]) {
+    case "https://": p = protocol.https; break;
+    case "git@": p = protocol.ssh; break;
+    default: break;
+  }
+
   return Remote(
-    cs["prefix"] == "https://" ? protocol.https : protocol.ssh,
+    p,
     cs["name"],
     cs["host"],
     cs["path"]

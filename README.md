@@ -4,7 +4,8 @@ git-switch-protocol
 - - -
 A helper to easily switch a git repositories remotes from `ssh` to `https` and
 back. Useful for places where `ssh` is blocked (such as some mermaid
-coffee-shops in São Paulo, as of recently)
+coffee-shops in São Paulo, as of recently). URLs starting with `git://` are also
+supported.
 
 ## Usage
 ```bash

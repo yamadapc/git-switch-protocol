@@ -4,9 +4,12 @@ import std.conv : to;
 import std.getopt : getopt;
 import std.process : execute;
 import std.regex : ctRegex, match;
+import std.stdio : stdout, writeln;
 import std.string : format, join, split;
 
 import colorize : cwriteln, color, cwritefln;
+
+extern(C) int isatty(int);
 
 static immutable string usage = "Usage: git-switch-protocol -p <protocol>";
 
@@ -16,7 +19,7 @@ int main(string[] args)
 {
   if(args.length == 1)
   {
-    usage.color("yellow").cwriteln;
+    usage.safeCwriteln("yellow");
     return 1;
   }
 
@@ -34,14 +37,13 @@ int main(string[] args)
 
     if(help)
     {
-      usage.color("yellow").cwriteln;
+      usage.safeCwriteln("yellow");
       return 1;
     }
 
     "Switching all remotes to `%s`..."
       .format(targetProtocol.to!string)
-      .color("light_blue")
-      .cwriteln;
+      .safeCwriteln("light_blue");
 
     foreach(remote; readRemotes)
       remote.switchToProtocol(targetProtocol);
@@ -49,7 +51,7 @@ int main(string[] args)
   }
   catch(Exception err)
   {
-    "ERROR: %s".format(err.msg).color("red").cwriteln;
+    "ERROR: %s".format(err.msg).safeCwriteln("red");
     return 1;
   }
 }
@@ -67,17 +69,15 @@ struct Remote
   {
     if(type == targetProtocol)
     {
-      "Remote `%s` is already using `%s`. Skipping...".color("yellow")
-        .cwritefln(name, targetProtocol.to!string);
+      "Remote `%s` is already using `%s`. Skipping..."
+        .format(name, targetProtocol.to!string)
+        .safeCwriteln("yellow");
       return;
     }
 
-    cwritefln(
-      "Switching remote `%s` from `%s` to `%s`...".color("light_blue"),
-      name,
-      type.to!string,
-      targetProtocol.to!string
-    );
+    "Switching remote `%s` from `%s` to `%s`..."
+      .format(name, type.to!string, targetProtocol.to!string)
+      .safeCwriteln("light_blue");
 
     auto cmdResult = git("remote", [
       "set-url",
@@ -153,6 +153,14 @@ unittest
   assert(remote.path == "yamadapc/git-switch-protocol.git");
 }
 
+auto safeCwriteln(string text, string cl)
+{
+  if(!isatty(stdout.fileno))
+    writeln(text);
+  else
+    cwriteln(color(text, cl));
+}
+
 auto readRemotes()
 {
   auto result = git("remote", ["-v"]);
@@ -167,6 +175,6 @@ auto readRemotes()
 auto git(in string gitcmd, in string[] args = [])
 {
   auto cmd = ["git", gitcmd] ~ args;
-  ("  >" ~ cmd).join(" ").color("light_green").cwriteln;
+  ("  >" ~ cmd).join(" ").safeCwriteln("light_green");
   return execute(cmd);
 }
